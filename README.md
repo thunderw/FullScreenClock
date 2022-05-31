@@ -1,5 +1,6 @@
 # FullScreenClock
-自选背景的全屏幕时钟
+自选背景的全屏幕时钟  
+![运行效果](https://github.com/thunderw/FullScreenClock/blob/main/screenshots/screenshot-v0.1.jpg?raw=true)
 
 ## 操作方法
 * `Enter` 进入全屏幕（隐藏任务栏，通过最大化进入全屏幕则会保留任务栏）
