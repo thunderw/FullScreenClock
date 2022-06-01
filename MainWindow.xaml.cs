@@ -46,12 +46,16 @@ namespace FullScreenClock
                 case Key.Right:
                 case Key.PageDown:
                     bool isFound = false;
-                    foreach (string fn in Directory.GetFiles("images", "*.jp*g"))
+                    string dn = string.IsNullOrEmpty(crtFileName) ? "images" : 
+                        System.IO.Path.GetDirectoryName(crtFileName);
+                    foreach (string fn in Directory.GetFiles(dn, "*.jp*g"))
                     {
                         if(isFound)
                         {
                             imgBack.Source = new BitmapImage(new Uri(new FileInfo(fn).FullName));
                             crtFileName = fn;
+                            Properties.Settings.Default.LastFileName = crtFileName;
+                            Properties.Settings.Default.Save();
                             break;
                         }
                         isFound = string.Equals(fn, crtFileName);
@@ -59,13 +63,17 @@ namespace FullScreenClock
                     break;
                 case Key.Left:
                 case Key.PageUp:
+                    dn = string.IsNullOrEmpty(crtFileName) ? "images" :
+                        System.IO.Path.GetDirectoryName(crtFileName);
                     string prevFile = "";
-                    foreach (string fn in Directory.GetFiles("images", "*.jp*g"))
+                    foreach (string fn in Directory.GetFiles(dn, "*.jp*g"))
                     {
                         if (string.Equals(fn, crtFileName) && !string.IsNullOrEmpty(prevFile))
                         {
                             imgBack.Source = new BitmapImage(new Uri(new FileInfo(prevFile).FullName));
                             crtFileName = prevFile;
+                            Properties.Settings.Default.LastFileName = crtFileName;
+                            Properties.Settings.Default.Save();
                         }
                         prevFile = fn;
                     }
@@ -100,11 +108,18 @@ namespace FullScreenClock
             timer.Tick += Timer_Tick;
             timer.Start();
 
-            foreach(string fn in Directory.GetFiles("images", "*.jp*g"))
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.LastFileName))
             {
-                imgBack.Source = new BitmapImage(new Uri(new FileInfo(fn).FullName));
-                crtFileName = fn;
-                break;
+                var fi = new FileInfo(Properties.Settings.Default.LastFileName);
+                if(fi.Exists)
+                {
+                    imgBack.Source = new BitmapImage(new Uri(fi.FullName));
+                    crtFileName = fi.FullName;
+                }
+            }
+            if (string.IsNullOrEmpty(crtFileName))
+            {
+                LoadFirstFile("images");
             }
             sbMain.Begin();
         }
@@ -115,6 +130,61 @@ namespace FullScreenClock
             tbDate.Text = now.ToString("yyyy年M月d日");
             tbTime.Text = now.ToString("HH:mm:ss");
             tbDayOfWeek.Text = DOW[(int)now.DayOfWeek];
+        }
+
+        private void Window_Drop(object sender, DragEventArgs e)
+        {
+            var ar = (System.Array)e.Data.GetData(DataFormats.FileDrop);
+            if (ar.Length > 0) {
+                var fn = ar.GetValue(0).ToString();
+                if (Directory.Exists(fn))
+                {
+                    foreach (string f in Directory.GetFiles(fn, "*.jp*g"))
+                    {
+                        imgBack.Source = new BitmapImage(new Uri(new FileInfo(f).FullName));
+                        crtFileName = f;
+                        Properties.Settings.Default.LastFileName = crtFileName;
+                        Properties.Settings.Default.Save();
+                        break;
+                    }
+                } else
+                {
+                    var fi = new FileInfo(fn);
+                    var ext = System.IO.Path.GetExtension(fn).ToLower();
+                    if (fi.Exists && (".jpg".Equals(ext) || ".jpeg".Equals(ext)))
+                    {
+                        imgBack.Source = new BitmapImage(new Uri(new FileInfo(fn).FullName));
+                        crtFileName = fn;
+                        Properties.Settings.Default.LastFileName = crtFileName;
+                        Properties.Settings.Default.Save();
+                    }
+                }
+            }
+        }
+
+        private void Window_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effects = DragDropEffects.Link;
+            } else
+            {
+                e.Effects = DragDropEffects.None;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dn">Directory Name</param>
+        private void LoadFirstFile(string dn)
+        {
+            foreach (string fn in Directory.GetFiles(dn, "*.jp*g"))
+            {
+                imgBack.Source = new BitmapImage(new Uri(new FileInfo(fn).FullName));
+                crtFileName = fn;
+                break;
+            }
         }
     }
 }
