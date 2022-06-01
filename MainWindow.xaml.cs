@@ -186,5 +186,48 @@ namespace FullScreenClock
                 break;
             }
         }
+
+        private void Grid_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var d = e.Delta >= 0 ? e.Delta / 200.0 : 1 / e.Delta - 1;
+            stClock.ScaleX += d;
+            stClock.ScaleY += d;
+            if (stClock.ScaleX < 0.1)
+            {
+                stClock.ScaleX = 0.1;
+                stClock.ScaleY = 0.1;
+            }
+            if (stClock.ScaleX > 8)
+            {
+                stClock.ScaleX = 8;
+                stClock.ScaleY = 8;
+            }
+        }
+
+        private Point mouseStartPos;
+        private Vector startTtOffset;
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            startTtOffset = new Vector(ttClock.X, ttClock.Y);
+            mouseStartPos = e.GetPosition(this);
+            // Do not move CaptureMouse before get ttClock.X, or you'll get wrong value
+            grdClock.CaptureMouse();
+        }
+
+        private void grdClock_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            grdClock.ReleaseMouseCapture();
+        }
+
+        private void grdClock_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (grdClock.IsMouseCaptured)
+            {
+                var offset = Point.Subtract(e.GetPosition(this), mouseStartPos);
+                ttClock.X = startTtOffset.X + offset.X / stClock.ScaleX;
+                ttClock.Y = startTtOffset.Y + offset.Y / stClock.ScaleY;
+            }
+        }
     }
 }

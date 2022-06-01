@@ -11,26 +11,34 @@
         </Grid.ColumnDefinitions>
         <Image x:Name="imgBack" Stretch="UniformToFill" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" >
         </Image>
-        <TextBlock x:Name="tbTime" Margin="0,0,193,135" TextWrapping="Wrap" Text="88:88:88" Height="67" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="270" FontSize="48" Foreground="White" FontFamily="Segoe UI Black" Opacity="0.85">
-            <TextBlock.Effect>
-                <DropShadowEffect BlurRadius="8" Opacity="0.7" ShadowDepth="4"></DropShadowEffect>
-            </TextBlock.Effect>
-        </TextBlock>
-        <TextBlock x:Name="tbDayOfWeek" Margin="0,0,139,99" TextWrapping="Wrap" Text="日" Height="67" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="106" FontSize="48" Foreground="White" FontFamily="Segoe UI Black" Opacity="0.85" TextAlignment="Center">
-            <TextBlock.Effect>
-                <DropShadowEffect BlurRadius="8" Opacity="0.7" ShadowDepth="4"></DropShadowEffect>
-            </TextBlock.Effect>
-        </TextBlock>
-        <TextBlock x:Name="lblDayOfWeek" Margin="0,0,139,148" TextWrapping="Wrap" Text="星期" Height="41" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="106" FontSize="24" Foreground="White" FontFamily="Segoe UI Black" Opacity="0.85" TextAlignment="Center">
-            <TextBlock.Effect>
-                <DropShadowEffect BlurRadius="8" Opacity="0.7" ShadowDepth="4"></DropShadowEffect>
-            </TextBlock.Effect>
-        </TextBlock>
-        <TextBlock x:Name="tbDate" Margin="0,0,209,94" TextWrapping="Wrap" Text="2022年8月15日" Height="54" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="254" FontSize="32" Foreground="White" FontFamily="Segoe UI Black" Opacity="0.85">
-            <TextBlock.Effect>
-                <DropShadowEffect BlurRadius="8" Opacity="0.7" ShadowDepth="4"></DropShadowEffect>
-            </TextBlock.Effect>
-        </TextBlock>
+        <Grid x:Name="grdClock" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,93,62" Width="348" Height="151" MouseWheel="Grid_MouseWheel" MouseDown="Grid_MouseDown" MouseUp="grdClock_MouseUp" MouseMove="grdClock_MouseMove">
+            <TextBlock x:Name="tbTime" Margin="0,0,54,69" TextWrapping="Wrap" Text="88:88:88" Height="67" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="270" FontSize="48" Foreground="White" FontFamily="Segoe UI Black" Opacity="0.85">
+                <TextBlock.Effect>
+                    <DropShadowEffect BlurRadius="8" Opacity="0.7" ShadowDepth="4"/>
+                </TextBlock.Effect>
+            </TextBlock>
+            <TextBlock x:Name="tbDayOfWeek" Margin="0,0,0,33" TextWrapping="Wrap" Text="日" Height="67" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="106" FontSize="48" Foreground="White" FontFamily="Segoe UI Black" Opacity="0.85" TextAlignment="Center">
+                <TextBlock.Effect>
+                    <DropShadowEffect BlurRadius="8" Opacity="0.7" ShadowDepth="4"/>
+                </TextBlock.Effect>
+            </TextBlock>
+            <TextBlock x:Name="lblDayOfWeek" Margin="0,0,0,82" TextWrapping="Wrap" Text="星期" Height="41" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="106" FontSize="24" Foreground="White" FontFamily="Segoe UI Black" Opacity="0.85" TextAlignment="Center">
+                <TextBlock.Effect>
+                    <DropShadowEffect BlurRadius="8" Opacity="0.7" ShadowDepth="4"/>
+                </TextBlock.Effect>
+            </TextBlock>
+            <TextBlock x:Name="tbDate" Margin="0,0,70,28" TextWrapping="Wrap" Text="2022年8月15日" Height="54" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="254" FontSize="32" Foreground="White" FontFamily="Segoe UI Black" Opacity="0.85">
+                <TextBlock.Effect>
+                    <DropShadowEffect BlurRadius="8" Opacity="0.7" ShadowDepth="4"/>
+                </TextBlock.Effect>
+            </TextBlock>
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <TranslateTransform x:Name="ttClock" X="0" Y="0"/>
+                    <ScaleTransform x:Name="stClock" />
+                </TransformGroup>
+            </Grid.RenderTransform>
+        </Grid>
         <Grid.Triggers>
             <EventTrigger SourceName="grdMain" RoutedEvent="Loaded">
                 <BeginStoryboard>
