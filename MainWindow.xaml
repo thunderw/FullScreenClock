@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FullScreenClock"
         mc:Ignorable="d"
-        Title="全屏时钟" Height="450" Width="800" PreviewKeyDown="Window_PreviewKeyDown" StateChanged="Window_StateChanged" Loaded="Window_Loaded" >
+        Title="全屏时钟" Height="450" Width="800" PreviewKeyDown="Window_PreviewKeyDown" StateChanged="Window_StateChanged" Loaded="Window_Loaded" Drop="Window_Drop" DragEnter="Window_DragEnter" AllowDrop="True">
     <Grid x:Name="grdMain">
         <Grid.ColumnDefinitions>
         </Grid.ColumnDefinitions>
-        <Image x:Name="imgBack" Stretch="UniformToFill" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Drop="Window_Drop" DragEnter="Window_DragEnter" AllowDrop="True">
+        <Image x:Name="imgBack" Stretch="UniformToFill" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" >
         </Image>
         <TextBlock x:Name="tbTime" Margin="0,0,193,135" TextWrapping="Wrap" Text="88:88:88" Height="67" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="270" FontSize="48" Foreground="White" FontFamily="Segoe UI Black" Opacity="0.85">
             <TextBlock.Effect>
