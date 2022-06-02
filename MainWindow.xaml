@@ -27,13 +27,13 @@
                     <DropShadowEffect BlurRadius="8" Opacity="0.7" ShadowDepth="4"/>
                 </TextBlock.Effect>
             </TextBlock>
-            <TextBlock x:Name="tbDate" Margin="0,0,70,28" TextWrapping="Wrap" Text="2022年8月15日" Height="54" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="254" FontSize="32" Foreground="White" FontFamily="Segoe UI Black" Opacity="0.85">
+            <TextBlock x:Name="tbDate" Margin="0,0,70,28" TextWrapping="Wrap" Text="2022年12月15日" Height="54" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="254" FontSize="32" Foreground="White" FontFamily="Segoe UI Black" Opacity="0.85">
                 <TextBlock.Effect>
                     <DropShadowEffect BlurRadius="8" Opacity="0.7" ShadowDepth="4"/>
                 </TextBlock.Effect>
             </TextBlock>
             <Grid.RenderTransform>
-                <TransformGroup>
+                <TransformGroup x:Name="tgClock">
                     <TranslateTransform x:Name="ttClock" X="0" Y="0"/>
                     <ScaleTransform x:Name="stClock" />
                 </TransformGroup>

@@ -189,7 +189,15 @@ namespace FullScreenClock
 
         private void Grid_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            var d = e.Delta >= 0 ? e.Delta / 200.0 : 1 / e.Delta - 1;
+            var d = e.Delta * stClock.ScaleX / 1000.0;
+            var ttClockX = ttClock.X;
+            var ttClockY = ttClock.Y;
+            var mousePoint = e.GetPosition(this); 
+            // e.GetPosition(grdClock) 获得的是相对转换后的grdClock的，所以这里自己重新计算
+            mousePoint.Offset(-(this.Width - grdClock.Margin.Right - grdClock.Width),
+                -(this.Height - grdClock.Margin.Bottom - grdClock.Height));
+            var startPoint = tgClock.Inverse.Transform(mousePoint);
+
             stClock.ScaleX += d;
             stClock.ScaleY += d;
             if (stClock.ScaleX < 0.1)
@@ -202,6 +210,10 @@ namespace FullScreenClock
                 stClock.ScaleX = 8;
                 stClock.ScaleY = 8;
             }
+            var newPoint = tgClock.Transform(startPoint);
+            var offset = Point.Subtract(mousePoint, newPoint);
+            ttClock.X = ttClockX + offset.X / stClock.ScaleX;
+            ttClock.Y = ttClockY + offset.Y / stClock.ScaleY;
         }
 
         private Point mouseStartPos;
